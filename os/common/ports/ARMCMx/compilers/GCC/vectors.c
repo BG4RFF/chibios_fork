@@ -78,6 +78,12 @@ void _unhandled_exception(void) {
 /*lint -restore*/
 
   while (true) {
+      asm("nop");
+      asm("nop");
+      asm("nop");
+      asm("nop");
+      //asm("bkpt");
+//#warning "breakpoint "
   }
 }
 

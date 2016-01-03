@@ -163,9 +163,15 @@
                 .align  2
                 .thumb_func
                 .global Reset_Handler
+
+                .word 0x98738721        //magic words used by bootloader
+                .word 0xaf8bcd81        //to determine user program exists
+                                        //dont you even dare to change this!!!!
+
 Reset_Handler:
                 /* Interrupts are globally masked initially.*/
                 cpsid   i
+                cpsie   f
 
                 /* PSP stack pointers initialization.*/
                 ldr     r0, =__process_stack_end__
