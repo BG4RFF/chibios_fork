@@ -1,0 +1,6 @@
+[submodule "piris"]
+	path = piris
+	url = https://github.com/kubanecxxx/piris
+[submodule "library"]
+	path = library
+	url = https://github.com/kubanecxxx/library

@@ -30,7 +30,10 @@ setByDefault (OPTIMIZED_FLAGS "-Os")
 setByDefault (CPPFLAGS "-fno-rtti -fno-exceptions")
 setByDefault (CFLAGS "")
 setByDefault (TARGET_NAME ${PROJECT_NAME})
-setByDefault (HALCONF ${CMAKE_CURRENT_SOURCE_DIR}/halconf.h)
+setByDefault (HALCONF ${CMAKE_SOURCE_DIR}/halconf.h)
+setByDefault (USE_COMMON_LIBRARY 0)
+setByDefault (USE_PIRIS 0)
+setByDefault (FPU_ENABLED FALSE)
 
 set (ChibiOS_hal "${TARGET_NAME}_chibios_hal")
 set (ChibiOS_rt "${TARGET_NAME}_chibios_rt")
@@ -129,7 +132,7 @@ set (OBJDUMP "${TOOLCHAIN}-objdump")
 set (SIZE "${TOOLCHAIN}-size")
 
 set (SUPER_FLAGS
--DCORTEX_USE_FPU=FALSE
+-DCORTEX_USE_FPU=${FPU_ENABLED}
 -DTHUMB_PRESENT
 -DTHUMB_NO_INTERWORKING
 -mcpu=cortex-${CORE}
@@ -546,9 +549,6 @@ endif()
 
 set(USER_CODE "${TARGET_NAME}_user_code")
 
-
-
-
 add_executable(${TARGET_NAME}
 $<TARGET_OBJECTS:${ChibiOS_hal}>
 $<TARGET_OBJECTS:${ChibiOS_rt}>
@@ -556,14 +556,23 @@ $<TARGET_OBJECTS:${ChibiOS_port}>
 $<TARGET_OBJECTS:${USER_CODE}>
 )
 
+add_library(${USER_CODE} OBJECT ${USER_SOURCES} ${OPTIMIZED_SOURCES} ${EXTRA_HEADERS})
 
 #optimized sources
 set_source_files_properties(${OPTIMIZED_SOURCES} COMPILE_FLAGS ${OPTIMIZED_FLAGS})
-add_library(${USER_CODE} OBJECT ${USER_SOURCES} ${OPTIMIZED_SOURCES} ${EXTRA_HEADERS})
 
 enable_language(ASM)
 target_include_directories(${USER_CODE} PUBLIC ${INCLUDE_DIRS} )
 
+if (USE_PIRIS EQUAL 1)
+add_subdirectory(${CHIBIOS_DIR}/piris/framework ${CMAKE_CURRENT_BINARY_DIR}/chibios_piris)
+target_link_libraries(${TARGET_NAME} piris)
+endif()
+
+if (USE_COMMON_LIBRARY EQUAL 1)
+add_subdirectory(${CHIBIOS_DIR}/library ${CMAKE_CURRENT_BINARY_DIR}/chibios_library)
+target_link_libraries(${TARGET_NAME} library)
+endif()
 
 set (CMAKE_EXECUTABLE_SUFFIX .elf)
 
