@@ -25,6 +25,8 @@
 #ifndef _PAL_LLD_H_
 #define _PAL_LLD_H_
 
+#include "pal.h"
+
 #if HAL_USE_PAL || defined(__DOXYGEN__)
 
 /*===========================================================================*/

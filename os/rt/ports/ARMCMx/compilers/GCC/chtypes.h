@@ -27,7 +27,9 @@
 
 #ifndef _CHTYPES_H_
 #define _CHTYPES_H_
-
+#ifndef BECAUSE_OF_CODE_MODEL
+#include "ch.h"
+#endif
 #include <stddef.h>
 #include <stdint.h>
 #include <stdbool.h>

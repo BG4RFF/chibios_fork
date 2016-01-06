@@ -2,7 +2,10 @@ macro(setByDefault VAR_NAME VAR_VALUE)
   if(NOT DEFINED ${VAR_NAME})
     set (${VAR_NAME} ${VAR_VALUE})
     message ("Default value set ${VAR_NAME}=${VAR_VALUE}")
-  endif(NOT DEFINED ${VAR_NAME})
+  else()
+    message ("User value set ${VAR_NAME}=${${VAR_NAME}}")
+  endif()
+
 endmacro()
 
 message("")
@@ -38,6 +41,7 @@ setByDefault (FPU_ENABLED FALSE)
 set (ChibiOS_hal "${TARGET_NAME}_chibios_hal")
 set (ChibiOS_rt "${TARGET_NAME}_chibios_rt")
 set (ChibiOS_port "${TARGET_NAME}_chibios_port")
+add_definitions(-DBECAUSE_OF_CODE_MODEL)
 
 #------------------------------------------------------------
 #--------------bootloader definitions
@@ -150,9 +154,12 @@ ${GLOBAL_FLAGS}
 
 add_definitions(${SUPER_FLAGS})
 
-list (APPEND CFLAGS -Wstrict-prototypes)
+message (${CFLAGS})
+foreach(var ${CFLAGS})
+    list (APPEND ${CMAKE_C_FLAGS} ${var})
+endforeach()
+list (APPEND ${CMAKE_C_FLAGS} -Wstrict-prototypes)
 
-set (CMAKE_C_FLAGS ${CMAKE_C_FLAGS} ${CFLAGS})
 set (CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} ${CPPFLAGS})
 
 #------------------------------------------------------------

@@ -24,7 +24,9 @@
 
 #ifndef _STM32_REGISTRY_H_
 #define _STM32_REGISTRY_H_
-
+#ifndef BECAUSE_OF_CODE_MODEL
+#include "hal.h"
+#endif
 
 #if defined(STM32F439xx) || defined(STM32F429xx)
 #define STM32F429_439xx

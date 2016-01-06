@@ -24,7 +24,9 @@
 
 #ifndef _CAN_H_
 #define _CAN_H_
-
+#ifndef BECAUSE_OF_CODE_MODEL
+#include "hal.h"
+#endif
 #if (HAL_USE_CAN == TRUE) || defined(__DOXYGEN__)
 
 /*===========================================================================*/

@@ -27,7 +27,9 @@
 
 #ifndef _CHLICENSE_H_
 #define _CHLICENSE_H_
-
+#ifndef BECAUSE_OF_CODE_MODEL
+#include "ch.h"
+#endif
 /*===========================================================================*/
 /* Module constants.                                                         */
 /*===========================================================================*/

@@ -177,6 +177,10 @@ Reset_Handler:
                 ldr     r0, =__process_stack_end__
                 msr     PSP, r0
 
+                //MSP could be needed because bootloader doesnt generate reset, only jump
+                ldr     r0, =__main_stack_end__
+                msr     MSP, r0
+
 #if CRT0_INIT_FPU == TRUE
                 /* FPU FPCCR initialization.*/
                 movw    r0, #CRT0_FPCCR_INIT & 0xFFFF

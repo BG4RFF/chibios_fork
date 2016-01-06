@@ -25,7 +25,11 @@
 #ifndef _PAL_H_
 #define _PAL_H_
 
-#if (HAL_USE_PAL == TRUE) || defined(__DOXYGEN__)
+#ifndef BECAUSE_OF_CODE_MODEL
+#include "hal.h"
+#endif
+
+#if (HAL_USE_PAL)  || defined(__DOXYGEN__)
 
 /*===========================================================================*/
 /* Driver constants.                                                         */

@@ -27,7 +27,9 @@
 
 #ifndef _CHMEMCORE_H_
 #define _CHMEMCORE_H_
-
+#ifndef BECAUSE_OF_CODE_MODEL
+#include "ch.h"
+#endif
 #if (CH_CFG_USE_MEMCORE == TRUE) || defined(__DOXYGEN__)
 
 /*===========================================================================*/

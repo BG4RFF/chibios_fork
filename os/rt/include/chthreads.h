@@ -27,7 +27,9 @@
 
 #ifndef _CHTHREADS_H_
 #define _CHTHREADS_H_
-
+#ifndef BECAUSE_OF_CODE_MODEL
+#include "ch.h"
+#endif
 /*lint -sem(chThdExit, r_no) -sem(chThdExitS, r_no)*/
 
 /*===========================================================================*/

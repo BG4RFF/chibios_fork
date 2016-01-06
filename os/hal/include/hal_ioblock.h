@@ -33,7 +33,9 @@
 
 #ifndef _HAL_IOBLOCK_H_
 #define _HAL_IOBLOCK_H_
-
+#ifndef BECAUSE_OF_CODE_MODEL
+#include "hal.h"
+#endif
 /**
  * @brief   Driver state machine possible states.
  */

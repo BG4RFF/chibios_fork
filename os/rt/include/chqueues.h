@@ -27,7 +27,9 @@
 
 #ifndef _CHQUEUES_H_
 #define _CHQUEUES_H_
-
+#ifndef BECAUSE_OF_CODE_MODEL
+#include "ch.h"
+#endif
 #if (CH_CFG_USE_QUEUES == TRUE) || defined(__DOXYGEN__)
 
 /*===========================================================================*/

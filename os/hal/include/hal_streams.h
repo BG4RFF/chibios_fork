@@ -34,7 +34,9 @@
 
 #ifndef _HAL_STREAMS_H_
 #define _HAL_STREAMS_H_
-
+#ifndef BECAUSE_OF_CODE_MODEL
+#include "hal.h"
+#endif
 /**
  * @name    Streams return codes
  * @{

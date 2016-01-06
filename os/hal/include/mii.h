@@ -24,7 +24,9 @@
 
 #ifndef _MII_H_
 #define _MII_H_
-
+#ifndef BECAUSE_OF_CODE_MODEL
+#include "hal.h"
+#endif
 /*
  * Generic MII registers. Note, not all registers are present on all PHY
  * devices and some extra registers may be present.

@@ -24,7 +24,9 @@
 
 #ifndef _PWM_H_
 #define _PWM_H_
-
+#ifndef BECAUSE_OF_CODE_MODEL
+#include "hal.h"
+#endif
 #if (HAL_USE_PWM == TRUE) || defined(__DOXYGEN__)
 
 /*===========================================================================*/
