@@ -37,7 +37,7 @@
 
 #ifndef _CHSTREAMS_H_
 #define _CHSTREAMS_H_
-#ifndef BECAUSE_OF_CODE_MODEL
+#ifdef BECAUSE_OF_CODE_MODEL
 #include "ch.h"
 #endif
 /**

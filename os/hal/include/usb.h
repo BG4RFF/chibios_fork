@@ -24,7 +24,7 @@
 
 #ifndef _USB_H_
 #define _USB_H_
-#ifndef BECAUSE_OF_CODE_MODEL
+#ifdef BECAUSE_OF_CODE_MODEL
 #include "hal.h"
 #endif
 #if (HAL_USE_USB == TRUE) || defined(__DOXYGEN__)

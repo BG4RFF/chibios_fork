@@ -24,7 +24,7 @@
 
 #ifndef _HAL_QUEUES_H_
 #define _HAL_QUEUES_H_
-#ifndef BECAUSE_OF_CODE_MODEL
+#ifdef BECAUSE_OF_CODE_MODEL
 #include "hal.h"
 #endif
 /* The ChibiOS/RT kernel provides the following definitions by itself, this

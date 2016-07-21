@@ -24,7 +24,7 @@
 
 #ifndef _I2S_H_
 #define _I2S_H_
-#ifndef BECAUSE_OF_CODE_MODEL
+#ifdef BECAUSE_OF_CODE_MODEL
 #include "hal.h"
 #endif
 #if (HAL_USE_I2S == TRUE) || defined(__DOXYGEN__)

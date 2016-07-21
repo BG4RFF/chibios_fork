@@ -41,7 +41,7 @@ setByDefault (FPU_ENABLED FALSE)
 set (ChibiOS_hal "${TARGET_NAME}_chibios_hal")
 set (ChibiOS_rt "${TARGET_NAME}_chibios_rt")
 set (ChibiOS_port "${TARGET_NAME}_chibios_port")
-add_definitions(-DBECAUSE_OF_CODE_MODEL)
+
 
 #------------------------------------------------------------
 #--------------bootloader definitions
@@ -265,13 +265,13 @@ message("selected HAL modules to be compiled: ${MODULES}")
 #------------------------------------------------------------
 #--------------chibios includes
 #------------------------------------------------------------
-include_directories(
+set(CH_DIRS_RT
 ${CMAKE_CURRENT_SOURCE_DIR}
 "${CHIBIOS_DIR}/os/hal/include"
 "${CHIBIOS_DIR}/os/ext/CMSIS/include"
 "${CHIBIOS_DIR}/os/ext/CMSIS/ST"
 "${CHIBIOS_DIR}/os/rt/ports/ARMCMx"
-"${CHIBIOS_DIR}/os/rt/ports/ARMCMx/cmsis_os"
+#"${CHIBIOS_DIR}/os/rt/ports/ARMCMx/cmsis_os"
 "${CHIBIOS_DIR}/os/rt/ports/ARMCMx/compilers/GCC"
 "${CHIBIOS_DIR}/os/rt/include"
 "${CHIBIOS_DIR}/os/hal/osal/rt"
@@ -288,6 +288,9 @@ list (APPEND INCLUDES_FULL_PATH ${CHIBIOS_DIR}/os/hal/ports/STM32/LLD/${I})
 endforeach()
 
 INCLUDE_DIRECTORIES(${INCLUDES_FULL_PATH})
+
+include_directories(${CH_DIRS_RT})
+#target_include_directories(${ChibiOS_rt} ${CH_DIRS})
 
 
 #------------------------------------------------------------
@@ -324,16 +327,19 @@ list (APPEND HAL_SRC "${CHIBIOS_DIR}/os/hal/osal/rt/osal.c")
 #------------------------------------------------------------
 #-------------- board
 #------------------------------------------------------------
+set (BORD_DIR )
 if (DEFINED BOARD)
         message("using board ${BOARD}")
         list (APPEND HAL_SRC "${CHIBIOS_DIR}/os/hal/boards/${BOARD}/board.c")
         list (APPEND HAL_HEADER "${CHIBIOS_DIR}/os/hal/boards/${BOARD}/board.h")
-        include_directories( "${CHIBIOS_DIR}/os/hal/boards/${BOARD}")
+        set (BORD_DIR "${CHIBIOS_DIR}/os/hal/boards/${BOARD}")
+        include_directories( ${BORD_DIR})
+        #target_include_directories(${ChibiOS_rt} "${CHIBIOS_DIR}/os/hal/boards/${BOARD}")
 else()
         message("using no board! you should use your own board init")
 endif()
 
-add_library(${ChibiOS_hal} OBJECT ${HAL_SRC} ${HAL_HEADER})
+#add_library(${ChibiOS_hal} OBJECT ${HAL_SRC} ${HAL_HEADER})
 #------------------------------------------------------------
 #-------------- rt sources
 #------------------------------------------------------------
@@ -378,7 +384,7 @@ list (APPEND RT_HEADER ${f})
 endforeach()
 
 
-add_library(${ChibiOS_rt} OBJECT ${RT_SRC} ${RT_HEADER})
+#add_library(${ChibiOS_rt} OBJECT ${RT_SRC} ${RT_HEADER})
 
 #------------------------------------------------------------
 #-------------- port sources
@@ -394,7 +400,7 @@ set_source_files_properties("${CHIBIOS_DIR}/os/common/ports/ARMCMx/compilers/GCC
 
 set (PORT_HEADERS
 ${CHIBIOS_DIR}/os/rt/ports/ARMCMx/compilers/GCC/chtypes.h
-${CHIBIOS_DIR}/os/rt/ports/ARMCMx/cmsis_os/cmsis_os.h
+#${CHIBIOS_DIR}/os/rt/ports/ARMCMx/cmsis_os/cmsis_os.h
 ${CHIBIOS_DIR}/os/rt/ports/ARMCMx/chcore.h
 ${CHIBIOS_DIR}/os/rt/ports/ARMCMx/chcore_timer.h
 ${CHIBIOS_DIR}/os/rt/ports/ARMCMx/chcore_${ARCHITECTURE}.h
@@ -469,7 +475,7 @@ set (vm "${CHIBIOS_DIR}/os/rt/ports/ARMCMx/compilers/GCC/chcoreasm_${ARCHITECTUR
 #rt port
 list (APPEND PORT_SRC
 "${CHIBIOS_DIR}/os/rt/ports/ARMCMx/chcore.c"
-"${CHIBIOS_DIR}/os/rt/ports/ARMCMx/cmsis_os/cmsis_os.c"
+#"${CHIBIOS_DIR}/os/rt/ports/ARMCMx/cmsis_os/cmsis_os.c"
 "${CHIBIOS_DIR}/os/rt/ports/ARMCMx/chcore_${ARCHITECTURE}.c"
 ${vm}
 )
@@ -477,7 +483,7 @@ ${vm}
 #set_property(SOURCE ${vm} PROPERTY LANGUAGE C)
 set_source_files_properties(${vm} PROPERTIES COMPILE_FLAGS "-x assembler-with-cpp")
 
-add_library(${ChibiOS_port} OBJECT ${PORT_SRC} ${PORT_HEADERS})
+#add_library(${ChibiOS_port} OBJECT ${PORT_SRC} ${PORT_HEADERS})
 
 #------------------------------------------------------------
 #-------------- linker setup
@@ -554,16 +560,42 @@ if (${OPTIMIZE_RTOS} EQUAL 1)
 endif()
 
 
+
+#set_source_files_properties(${PORT_SRC} COMPILE_FLAGS -DBECAUSE_OF_CODE_MODEL)
+#set_source_files_properties(${HAL_SRC} COMPILE_FLAGS -DBECAUSE_OF_CODE_MODEL)
+#set_source_files_properties(${RT_SRC} COMPILE_FLAGS -DBECAUSE_OF_CODE_MODEL)
+
+
+
 set(USER_CODE "${TARGET_NAME}_user_code")
 
-add_executable(${TARGET_NAME}
-$<TARGET_OBJECTS:${ChibiOS_hal}>
-$<TARGET_OBJECTS:${ChibiOS_rt}>
-$<TARGET_OBJECTS:${ChibiOS_port}>
-$<TARGET_OBJECTS:${USER_CODE}>
-)
+#add_library(${ChibiOS_hal} OBJECT ${HAL_SRC} ${HAL_HEADER})
+#add_library(${ChibiOS_rt} OBJECT ${RT_SRC} ${RT_HEADER})
+add_library(${ChibiOS_port} OBJECT ${PORT_SRC} ${PORT_HEADERS})
+
+#add_executable(${TARGET_NAME}
+#$<TARGET_OBJECTS:${ChibiOS_hal}>
+#$<TARGET_OBJECTS:${ChibiOS_rt}>
+#$<TARGET_OBJECTS:${ChibiOS_port}>
+#$<TARGET_OBJECTS:${USER_CODE}>
+#)
+
+add_library(${ChibiOS_rt} STATIC
+    ${HAL_SRC} ${HAL_HEADER}
+    ${RT_SRC} ${RT_HEADER}
+#    ${PORT_SRC} ${PORT_HEADER}
+    )
+
+target_include_directories(${ChibiOS_rt} PUBLIC ${CH_DIRS_RT} ${BORD_DIR})
+
+
+add_executable(${TARGET_NAME} $<TARGET_OBJECTS:${USER_CODE}> $<TARGET_OBJECTS:${ChibiOS_port}>)
+
+
+add_definitions(-DBECAUSE_OF_CODE_MODEL -UBECAUSE_OF_CODE_MODEL)
 
 add_library(${USER_CODE} OBJECT ${USER_SOURCES} ${OPTIMIZED_SOURCES} ${EXTRA_HEADERS})
+target_link_libraries(${TARGET_NAME} ${ChibiOS_rt})
 
 #optimized sources
 set_source_files_properties(${OPTIMIZED_SOURCES} COMPILE_FLAGS ${OPTIMIZED_FLAGS})
@@ -574,6 +606,8 @@ target_include_directories(${USER_CODE} PUBLIC ${INCLUDE_DIRS} )
 if (USE_PIRIS EQUAL 1)
 add_subdirectory(${CHIBIOS_DIR}/piris/framework ${CMAKE_CURRENT_BINARY_DIR}/chibios_piris)
 target_link_libraries(${TARGET_NAME} piris)
+#target_link_libraries(piris ${ChibiOS_hal})
+
 endif()
 
 if (USE_COMMON_LIBRARY EQUAL 1)

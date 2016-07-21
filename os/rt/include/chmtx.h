@@ -27,7 +27,7 @@
 
 #ifndef _CHMTX_H_
 #define _CHMTX_H_
-#ifndef BECAUSE_OF_CODE_MODEL
+#ifdef BECAUSE_OF_CODE_MODEL
 #include "ch.h"
 #endif
 #if (CH_CFG_USE_MUTEXES == TRUE) || defined(__DOXYGEN__)

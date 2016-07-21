@@ -27,7 +27,7 @@
 
 #ifndef _CHSTATS_H_
 #define _CHSTATS_H_
-#ifndef BECAUSE_OF_CODE_MODEL
+#ifdef BECAUSE_OF_CODE_MODEL
 #include "ch.h"
 #endif
 #if (CH_DBG_STATISTICS == TRUE) || defined(__DOXYGEN__)

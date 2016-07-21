@@ -30,7 +30,7 @@
 
 #ifndef _CHEVENTS_H_
 #define _CHEVENTS_H_
-#ifndef BECAUSE_OF_CODE_MODEL
+#ifdef BECAUSE_OF_CODE_MODEL
 #include "ch.h"
 #endif
 #if (CH_CFG_USE_EVENTS == TRUE) || defined(__DOXYGEN__)

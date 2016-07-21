@@ -48,7 +48,7 @@
 
 #ifndef _CHBSEM_H_
 #define _CHBSEM_H_
-#ifndef BECAUSE_OF_CODE_MODEL
+#ifdef BECAUSE_OF_CODE_MODEL
 #include "ch.h"
 #endif
 #if (CH_CFG_USE_SEMAPHORES == TRUE) || defined(__DOXYGEN__)

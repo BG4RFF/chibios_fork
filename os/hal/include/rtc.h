@@ -28,7 +28,7 @@
 
 #ifndef _RTC_H_
 #define _RTC_H_
-#ifndef BECAUSE_OF_CODE_MODEL
+#ifdef BECAUSE_OF_CODE_MODEL
 #include "hal.h"
 #endif
 #if (HAL_USE_RTC == TRUE) || defined(__DOXYGEN__)

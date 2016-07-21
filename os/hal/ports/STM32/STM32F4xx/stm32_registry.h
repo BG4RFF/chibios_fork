@@ -24,7 +24,7 @@
 
 #ifndef _STM32_REGISTRY_H_
 #define _STM32_REGISTRY_H_
-#ifndef BECAUSE_OF_CODE_MODEL
+#ifdef BECAUSE_OF_CODE_MODEL
 #include "hal.h"
 #endif
 

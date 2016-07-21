@@ -24,7 +24,7 @@
 
 #ifndef _MII_H_
 #define _MII_H_
-#ifndef BECAUSE_OF_CODE_MODEL
+#ifdef BECAUSE_OF_CODE_MODEL
 #include "hal.h"
 #endif
 /*

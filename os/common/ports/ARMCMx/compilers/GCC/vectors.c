@@ -74,16 +74,23 @@ typedef struct {
  * @notapi
  */
 /*lint -save -e9075 [8.4] All symbols are invoked from asm context.*/
-void _unhandled_exception(void) {
+
+void user_unhandled_exception(void) __attribute__((weak, alias("nothing")));;
+
+void nothing(void)
+{
+
+}
+
+void _unhandled_exception(void){
 /*lint -restore*/
+
+  user_unhandled_exception();
 
   while (true) {
       asm("nop");
-      asm("nop");
-      asm("nop");
-      asm("nop");
-      //asm("bkpt");
 //#warning "breakpoint "
+
   }
 }
 
