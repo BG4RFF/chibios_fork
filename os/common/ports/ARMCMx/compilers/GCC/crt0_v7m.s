@@ -186,7 +186,7 @@ Reset_Handler:
                 movw    r0, #CRT0_FPCCR_INIT & 0xFFFF
                 movt    r0, #CRT0_FPCCR_INIT >> 16
                 movw    r1, #SCB_FPCCR & 0xFFFF
-                movt    r1, #SCB_FPCCR >> 16
+                movt    r1, #SCB_FPCCR >> 16h
                 str     r0, [r1]
                 dsb
                 isb
